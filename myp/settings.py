@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your-dev-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'myp-django.onrender.com']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
