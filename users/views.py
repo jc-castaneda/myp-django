@@ -51,3 +51,8 @@ def logout_user(request):
         return Response({'message': 'User logged out'}, status=status.HTTP_205_RESET_CONTENT)
     except:
         return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def health_check(request):
+    return Response({"status":"healthy"})
