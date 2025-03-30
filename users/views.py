@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 # Import your CustomUser model instead of the default User
+import users.models
 from users.models import CustomUser
 from django.contrib.auth import authenticate
 from rest_framework import status
@@ -51,6 +52,22 @@ def logout_user(request):
         return Response({'message': 'User logged out'}, status=status.HTTP_205_RESET_CONTENT)
     except:
         return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_user_info(request, user_id):
+
+    try:
+        user = CustomUser.objects.get(pk=int(user_id))
+        return Response({
+            'id': user_id,
+            'username': user.username,
+            'email': user.email,
+            'interests': user.interests,
+            'skills': user.skills,
+            'type': user.user_type
+        })
+    except (ValueError, users.models.CustomUser.DoesNotExist):
+        return Response({'error': "Invalid user ID"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])

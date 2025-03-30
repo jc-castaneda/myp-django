@@ -2,6 +2,11 @@ import os
 import dj_database_url
 from pathlib import Path
 
+def get_secret(secret_id, backup=None):
+    return os.getenv(secret_id, backup)
+
+is_local = get_secret('PIPELINE') != 'production'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-dev-secret-key')
 
@@ -9,16 +14,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your-dev-secret-key')
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'myp-django.onrender.com']
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
-}
 
 # Set CORS settings for frontend
 CORS_ALLOWED_ORIGINS = [
@@ -47,10 +42,13 @@ REST_FRAMEWORK = {
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a9(x(7r#zq)gd5co&h2n5y5%ks)=2ngwrdq%(%=%(aj#3uzr$t'
+if (is_local):
+    SECRET_KEY = 'django-insecure-a9(x(7r#zq)gd5co&h2n5y5%ks)=2ngwrdq%(%=%(aj#3uzr$t'
+else:
+    SECRET_KEY = get_secret('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = is_local
 
 
 
@@ -87,7 +85,6 @@ ROOT_URLCONF = 'myp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -102,7 +99,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myp.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {
@@ -111,7 +107,6 @@ DATABASES = {
         conn_max_age=600
     )
 }
-
 
 
 # Password validation
