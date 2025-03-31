@@ -19,8 +19,8 @@ function UserDetails() {
             <h1>{user.username}</h1>
             <p><b>Email:</b> {user.email}</p>
             <p><b>Bio:</b> {user.bio}</p>
-            <p><b>Interests:</b> {Array(user.interests).join(", ")}</p>
-            <p><b>Skills:</b> {Array(user.skills).join(", ")}</p>
+            <p><b>Interests:</b> {user.interests.join(', ')}</p>
+            <p><b>Skills:</b> {user.skills.join(', ')}</p>
             <p><b>Type:</b> {user.user_type}</p>
             <Link to="/users">Back to Users</Link>
         </div>

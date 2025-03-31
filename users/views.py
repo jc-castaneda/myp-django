@@ -27,7 +27,10 @@ def register_user(request):
             username=data['username'],
             email=data['email'],
             password=data['password'],
-            user_type=data.get('user_type', CustomUser.UserType.MUSICIAN)  # Set a default type
+            bio=data.get('bio', ""),
+            interests=data.get('interests', []),
+            skills=data.get('skills', []),
+            user_type=data.get('user_type', CustomUser.UserType.MUSICIAN)
         )
         return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
 
@@ -54,6 +57,15 @@ def logout_user(request):
         return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+def get_all_users(request):
+
+    return Response({'users': [{
+            'username': user.username,
+            'id': user.id
+        } for user in CustomUser.objects.all()
+    ]})
+
+@api_view(['GET'])
 def get_user_info(request, user_id):
 
     try:
@@ -61,10 +73,11 @@ def get_user_info(request, user_id):
         return Response({
             'id': user_id,
             'username': user.username,
+            'bio': user.bio,
             'email': user.email,
             'interests': user.interests,
             'skills': user.skills,
-            'type': user.user_type
+            'user_type': str(user.user_type)
         })
     except (ValueError, users.models.CustomUser.DoesNotExist):
         return Response({'error': "Invalid user ID"}, status=status.HTTP_400_BAD_REQUEST)

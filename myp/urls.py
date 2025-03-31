@@ -8,6 +8,7 @@ import users.views
 urlpatterns = [
 	path('api/register/', users.views.register_user, name='register'),
     path('api/login/', TokenObtainPairView.as_view(), name='login'),
+    path('api/all_users', users.views.get_all_users, name='user_info'),
     path('api/user_info/<int:user_id>', users.views.get_user_info, name='user_info'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/logout/', users.views.logout_user, name='logout'),
