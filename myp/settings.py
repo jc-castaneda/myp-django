@@ -7,12 +7,6 @@ def get_secret(secret_id, backup=None):
 
 is_local = get_secret('PIPELINE') != 'production'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'your-dev-secret-key')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
-
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'myp-django.onrender.com']
 
 # Set CORS settings for frontend
