@@ -2,6 +2,7 @@
 import os
 import dj_database_url
 from pathlib import Path
+from datetime import timedelta
 
 # H E L P E R   F (X) N S ------------------------------------------
 # Gets environment variables
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
 
     # Custom Apps -------------------
     'users',  # Our user management APP
+    'feed',   # Our post management APP
 
     # Rest framework and JWT
     'rest_framework',
@@ -108,6 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+if DEBUG:
+    # Longer Token Expiration Time for Testint and Developement
+    SIMPLE_JWT = {
+        'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+        'REFRESH_TOKEN_LIFETIME': timedelta(days=7)
+    }
 
 # D A T A B A S E   S E T T I N G S -------------------------------
 # Database URL handling (Default)
